@@ -80,8 +80,8 @@ int main(int argc, char *argv[]){
 		log_info("Client %s:%u\n", str, client_address.sin_port);
 		
 		if(accept_file_descriptor < 0){
-      log_error("Error while accept");
-      exit(EXIT_FAILURE);
+		  log_error("Error while accept");
+		  exit(EXIT_FAILURE);
 		}
 		
 		bzero(buffer, 1000);
@@ -89,29 +89,28 @@ int main(int argc, char *argv[]){
 		n = read(accept_file_descriptor, buffer, 1000);
 
 		if(n < 0){
-      log_error("Error reading from socket");
+		  log_error("Error reading from socket");
 		}
 
 		printf("Received a connection : \n%s", buffer);
 
         
-    char* header = "HTTP/1.1 200 OK\n";
-    char* content = read_file("index.html");
-    char* html = (char*)malloc(sizeof(char*) * (strlen(header) + strlen(content)));
-        
-    strcpy(html, header);
-    strcat(html, content);
-        
-    //printf("%s\n", html);
-		
-    n = write(accept_file_descriptor, html, strlen(html));
+		char* header = "HTTP/1.1 200 OK\n";
+		char* content = read_file("index.html");
+		char* html = (char*)malloc(sizeof(char*) * (strlen(header) + strlen(content)));
+		    
+		strcpy(html, header);
+		strcat(html, content);
+		    
+			
+		n = write(accept_file_descriptor, html, strlen(html));
 
 		close(accept_file_descriptor);
 
-    free(html);
+		free(html);
   }
   close(socket_file_descriptor);
-    
+}
   log_info("Application closed");
 
   return 0;
